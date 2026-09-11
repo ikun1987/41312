@@ -1,24 +1,742 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<title></title>
-		<!-- <script src="https://unpkg.com/vue@next"></script> -->
-		<script src="js/v3.2.8/vue.global.prod.js" type="text/javascript" charset="utf-8"></script>
-	</head>
-	<body>
-		<div id="app">
-			{{ counter }}测试网站
-		</div>
-		<script>
-			const App = {
-				data() {
-					return {
-						counter: 0
-					}
-				}
-			};
-			Vue.createApp(App).mount('#app');
-		</script>
-	</body>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>华为 HCIA-AI 认证 · 填空背诵手册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4efe7;
+  --bg-2:#efe7d9;
+  --paper:#fdfbf7;
+  --ink:#2b241c;
+  --ink-soft:#6b6253;
+  --ink-faint:#9a9078;
+  --line:#e4dbc8;
+  --accent:#c7000b;
+  --accent-deep:#9c0009;
+  --accent-soft:rgba(199,0,11,.08);
+  --gold:#b8860b;
+  --single:#1d6fd1;
+  --single-bg:rgba(29,111,209,.10);
+  --multi:#7c3aed;
+  --multi-bg:rgba(124,58,237,.10);
+  --judge:#0d9488;
+  --judge-bg:rgba(13,148,136,.12);
+  --shadow:0 1px 2px rgba(60,45,20,.06),0 8px 24px rgba(60,45,20,.07);
+  --shadow-lg:0 6px 14px rgba(60,45,20,.08),0 18px 44px rgba(60,45,20,.10);
+  --radius:14px;
+  --serif:"Noto Serif SC","Songti SC","STSong",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);
+  background-image:
+    radial-gradient(rgba(199,0,11,.035) 1px, transparent 1px),
+    radial-gradient(rgba(184,134,11,.03) 1px, transparent 1px);
+  background-size:26px 26px,26px 26px;
+  background-position:0 0,13px 13px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;overflow:hidden;color:#fff;
+  background:linear-gradient(135deg,#7a0006 0%,#b3001b 48%,#d21f2e 100%);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.16) 1.2px,transparent 1.2px);
+  background-size:22px 22px;
+}
+.hero::after{
+  content:"";position:absolute;right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.18),transparent 62%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2;padding:44px 0 30px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.28em;
+  color:rgba(255,255,255,.85);text-transform:uppercase;font-weight:600;
+  padding:6px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;
+  background:rgba(255,255,255,.08);backdrop-filter:blur(2px);
+}
+.hero h1{
+  font-family:var(--serif);font-weight:900;font-size:clamp(30px,5vw,46px);
+  line-height:1.14;margin:18px 0 6px;letter-spacing:.02em;
+}
+.hero h1 .hl{color:#ffd9a0}
+.hero p.sub{margin:0;font-size:15px;color:rgba(255,255,255,.9);max-width:56ch;line-height:1.7}
+.hero .mark{position:absolute;right:14px;bottom:6px;z-index:1;font-family:var(--serif);font-weight:900;
+  font-size:150px;line-height:1;color:rgba(255,255,255,.06);pointer-events:none;user-select:none}
+.hero-stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.hstat{
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;
+  padding:12px 16px;min-width:104px;backdrop-filter:blur(3px);
+}
+.hstat b{display:block;font-family:var(--serif);font-size:26px;font-weight:900;line-height:1}
+.hstat span{font-size:12px;color:rgba(255,255,255,.82);letter-spacing:.06em}
+.countdown{
+  margin-left:auto;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;
+  background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:12px 18px;
+}
+.countdown b{font-family:var(--serif);font-size:30px;font-weight:900;line-height:1;color:#ffd9a0}
+.countdown span{font-size:11px;color:rgba(255,255,255,.85);letter-spacing:.1em;margin-top:4px}
+.hero-quote{margin-top:22px;font-size:13px;color:rgba(255,255,255,.85);font-style:italic;letter-spacing:.03em}
+
+/* ---------- TOOLBAR ---------- */
+.toolbar{
+  position:sticky;top:0;z-index:50;margin-top:-1px;
+  background:rgba(244,239,231,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 4px 18px rgba(60,45,20,.05);
+}
+.toolbar-inner{padding:14px 0 12px}
+.search-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search{
+  flex:1 1 240px;display:flex;align-items:center;gap:8px;background:var(--paper);
+  border:1.5px solid var(--line);border-radius:11px;padding:10px 14px;
+  transition:border-color .18s, box-shadow .18s;
+}
+.search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search input{border:none;outline:none;background:transparent;font-size:15px;width:100%;color:var(--ink)}
+.search svg{flex:none;color:var(--ink-faint)}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.chip{
+  cursor:pointer;user-select:none;font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;
+  background:var(--paper);border:1.5px solid var(--line);color:var(--ink-soft);
+  transition:all .16s;display:inline-flex;align-items:center;gap:6px;
+}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip .dot{width:8px;height:8px;border-radius:50%}
+.spacer{flex:1}
+.tbtn{
+  cursor:pointer;user-select:none;font-size:13px;font-weight:600;padding:8px 14px;border-radius:11px;
+  background:var(--paper);border:1.5px solid var(--line);color:var(--ink-soft);transition:all .16s;
+  display:inline-flex;align-items:center;gap:7px;
+}
+.tbtn:hover{border-color:var(--accent);color:var(--accent)}
+.tbtn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.progress-wrap{margin-top:12px}
+.progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-faint);margin-bottom:5px}
+.progress-meta b{color:var(--accent)}
+.progress{height:8px;background:var(--bg-2);border-radius:99px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--gold),var(--accent));transition:width .4s ease}
+
+/* ---------- SECTIONS / CARDS ---------- */
+main{padding:26px 0 10px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin:26px 2px 14px}
+.sec-head h2{font-family:var(--serif);font-size:22px;font-weight:900;margin:0;display:flex;align-items:center;gap:10px}
+.sec-head h2 .bar{width:6px;height:22px;border-radius:3px;background:var(--accent)}
+.sec-head .cnt{font-size:13px;color:var(--ink-faint);font-weight:600}
+.day-banner{
+  display:none;align-items:center;gap:10px;background:linear-gradient(90deg,var(--accent-soft),transparent);
+  border:1px solid rgba(199,0,11,.18);border-radius:12px;padding:12px 16px;margin:18px 2px 4px;
+  font-size:14px;color:var(--ink);
+}
+.day-banner.show{display:flex}
+.day-banner b{color:var(--accent)}
+.day-tabs{display:none;flex-wrap:wrap;gap:7px;margin:12px 2px 4px}
+.day-tabs.show{display:flex}
+.day-tab{
+  cursor:pointer;font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:9px;
+  background:var(--paper);border:1.5px solid var(--line);color:var(--ink-soft);transition:all .15s;
+}
+.day-tab:hover{border-color:var(--accent);color:var(--accent)}
+.day-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.day-tab.today{box-shadow:0 0 0 2px var(--gold) inset}
+
+.list{display:flex;flex-direction:column;gap:14px}
+.card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 20px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  transition:transform .16s, box-shadow .16s, border-color .16s;
+}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc,var(--accent))}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:#ddd0b8}
+.card-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:11px}
+.qnum{
+  font-family:var(--serif);font-weight:900;font-size:15px;color:#fff;background:var(--ink);
+  min-width:38px;height:26px;padding:0 8px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;
+}
+.badge{
+  font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.03em;
+  color:var(--tc);background:var(--tbg);
+}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.tag{font-size:11px;color:var(--ink-faint);background:var(--bg-2);padding:3px 9px;border-radius:999px;border:1px solid var(--line)}
+.star{
+  cursor:pointer;border:none;background:transparent;font-size:20px;line-height:1;color:#d8cfc0;
+  padding:2px 4px;transition:transform .15s,color .15s;flex:none;
+}
+.star:hover{transform:scale(1.2)}
+.star.on{color:var(--gold)}
+.stem{
+  font-size:16.5px;line-height:2.05;color:var(--ink);margin:2px 0 0;font-weight:500;
+  letter-spacing:.01em;
+}
+.blank{border-bottom:2.5px solid rgba(199,0,11,.5);padding:0 3px;}
+.ans{color:var(--accent);font-weight:800;white-space:normal;}
+.card-foot{display:flex;align-items:flex-start;gap:10px;margin-top:13px;flex-wrap:wrap}
+.anskey{
+  display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--accent-deep);
+  background:var(--accent-soft);border:1px dashed rgba(199,0,11,.4);border-radius:9px;padding:6px 12px;
+}
+.anskey .lab{font-size:11px;color:var(--ink-faint);font-weight:600;letter-spacing:.05em}
+.note{
+  font-size:12.5px;color:var(--ink-soft);background:#fbf3df;border-left:3px solid var(--gold);
+  border-radius:6px;padding:8px 12px;line-height:1.6;flex:1 1 220px;
+}
+.note::before{content:"💡 ";}
+
+/* masked self-test mode */
+body.masked .ans{color:transparent;background:#e9e0cf;border-radius:5px;border-bottom-color:#d8cfc0;
+  text-shadow:none;cursor:pointer;}
+body.masked .anskey{filter:blur(7px);pointer-events:none}
+body.masked .note{filter:blur(4px);pointer-events:none}
+body.masked .card.show .ans{color:var(--accent);background:transparent;border-bottom-color:rgba(199,0,11,.5)}
+body.masked .card.show .anskey{filter:none}
+body.masked .card.show .note{filter:none}
+.mask-hint{display:none;font-size:11.5px;color:var(--ink-faint);margin-left:auto}
+body.masked .mask-hint{display:inline}
+
+/* footer */
+footer{margin:34px 0 0;border-top:1px solid var(--line);padding:26px 0 60px;color:var(--ink-soft)}
+.foot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.foot-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.foot-card h3{font-family:var(--serif);font-size:15px;margin:0 0 8px;color:var(--ink)}
+.foot-card p{font-size:13px;line-height:1.7;margin:0}
+.foot-note{margin-top:20px;font-size:12px;color:var(--ink-faint);line-height:1.7;text-align:center}
+.empty{display:none;text-align:center;padding:60px 20px;color:var(--ink-faint)}
+.empty.show{display:block}
+.empty .big{font-size:44px;margin-bottom:10px}
+.to-top{
+  position:fixed;right:22px;bottom:24px;z-index:60;width:46px;height:46px;border-radius:50%;
+  background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:20px;box-shadow:var(--shadow-lg);
+  opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;transform:translateY(8px);
+}
+.to-top.show{opacity:1;pointer-events:auto;transform:none}
+.to-top:hover{background:var(--accent)}
+
+@media (max-width:640px){
+  .hero-inner{padding:32px 0 24px}
+  .countdown{margin-left:0;align-items:flex-start}
+  .hero .mark{font-size:110px}
+  .stem{font-size:15.5px}
+  .tags{margin-left:0}
+}
+@media print{
+  .toolbar,.to-top,.star,.day-tabs{display:none}
+  body{background:#fff}
+  .card{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Huawei HCIA · AI</span>
+    <h1>人工智能认证<br><span class="hl">填空背诵手册</span></h1>
+    <p class="sub">把 179 道练习题的题干与正确答案整理成一句句完整的话，横线处已填好答案，打开就能直接背。</p>
+    <div class="hero-stats">
+      <div class="hstat"><b id="st-total">179</b><span>总题数</span></div>
+      <div class="hstat"><b id="st-single" style="color:#bcd8ff">0</b><span>单选题</span></div>
+      <div class="hstat"><b id="st-multi" style="color:#e3ccff">0</b><span>多选题</span></div>
+      <div class="hstat"><b id="st-judge" style="color:#b9efe6">0</b><span>判断题</span></div>
+      <div class="countdown"><b id="cd-num">--</b><span id="cd-lab">距考试(9月底)</span></div>
+    </div>
+    <div class="hero-quote">“ 一天看一遍，考前自然熟。” —— 祝一次通关 · 小助手敬上</div>
+  </div>
+  <div class="mark">AI</div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap toolbar-inner">
+    <div class="search-row">
+      <div class="search">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="q" type="text" placeholder="搜索题干 / 答案 / 标签…" autocomplete="off">
+      </div>
+      <button class="tbtn" id="btn-view" title="在全部题目与每日计划之间切换">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span id="view-lab">每日计划</span>
+      </button>
+      <button class="tbtn on" id="btn-mask" title="遮挡答案用于自测，点击单题可单独查看">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span id="mask-lab">遮挡答案</span>
+      </button>
+    </div>
+    <div class="chip-row" id="chips">
+      <span class="chip active" data-t="全部">全部</span>
+      <span class="chip" data-t="单选"><i class="dot" style="background:var(--single)"></i>单选</span>
+      <span class="chip" data-t="多选"><i class="dot" style="background:var(--multi)"></i>多选</span>
+      <span class="chip" data-t="判断"><i class="dot" style="background:var(--judge)"></i>判断</span>
+      <span class="spacer"></span>
+      <span class="chip" data-t="星标" id="chip-star" title="只看标记掌握的">★ 已掌握</span>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-meta"><span>掌握进度</span><span><b id="ms-n">0</b> / <span id="ms-total">179</span> 题已标记</span></div>
+      <div class="progress"><i id="ms-bar"></i></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="day-banner" id="day-banner"></div>
+  <div class="day-tabs" id="day-tabs"></div>
+  <main id="list"></main>
+  <div class="empty" id="empty">
+    <div class="big">🔍</div>
+    <div>没有找到匹配的题目，换个关键词试试～</div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-card">
+        <h3>怎么用这本手册</h3>
+        <p>默认已把答案填进横线，直接通读即可。点「遮挡答案」后，所有答案会被盖住，可在心里默答，再点击单张卡片核对——这就是最简单的自测。</p>
+      </div>
+      <div class="foot-card">
+        <h3>每日计划</h3>
+        <p>切换到「每日计划」会把 179 题按剩余天数均分，每天攻克一小摞，顶部的横幅会提示今天该背哪一摞，循序渐进不焦虑。</p>
+      </div>
+      <div class="foot-card">
+        <h3>掌握标记</h3>
+        <p>每道题右上角有一颗小星星，背熟了点亮它，顶部进度条会记录你的掌握情况；数据只保存在你自己的浏览器里。</p>
+      </div>
+    </div>
+    <div class="foot-note">
+      答案均整理自你的练习截图（以系统标注的「正确答案」为准，个别老师批注已采用更正后的答案）。<br>
+      本题库仅供个人学习背诵使用 · 华为 HCIA-AI 认证备考
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" title="回到顶部">↑</button>
+
+<script>
+// 华为 HCIA-AI 认证题库 · 背诵版（由练习截图逐题整理）
+// 数据格式: {n:题号, t:类型(单选/多选/判断), f:填空陈述句(答案已填入横线), k:答案速记, tags:标签, note:备注(可选)}
+// 答案以练习系统截图中的"正确答案是：X"为准；有老师批注"更改试题答案"的以批注为准。
+const QS = [
+{n:1,t:"单选",f:"Ascend Extension for PyTorch 插件是基于昇腾的深度学习适配框架，使昇腾 NPU 可以支持 PyTorch 框架，这种实现方式在粒度上为____。",k:"算子粒度",tags:["昇腾","PyTorch"]},
+{n:2,t:"单选",f:"某工程师希望通过 AI 模型实现水果图像分类，训练模型时需要使用的数据是____。",k:"水果图片",tags:["AI基础","训练数据"]},
+{n:3,t:"单选",f:"在昇腾 AI 软件栈中，MindStudio 属于____类别。",k:"全流程开发工具链",tags:["昇腾","MindStudio"]},
+{n:4,t:"单选",f:"最适合采用 AI Agent 架构来实现的任务特性是____。",k:"需要频繁执行相同或类似的操作序列",tags:["Agent"]},
+{n:5,t:"单选",f:"DeepSeek-R1 是效果最为出众的模型之一，它属于____范畴的人工智能。",k:"弱人工智能",tags:["大模型","AI分类"]},
+{n:6,t:"单选",f:"现在训练 LLM 存在很多挑战，其中「联算比失衡」指的是____跟不上 LLM 运算量的发展。",k:"服务器内部互联带宽",tags:["大模型","算力"]},
+{n:7,t:"单选",f:"「从有标签的历史数据中来预测下季度的商铺营收额」，这是一个____问题。",k:"回归问题",tags:["机器学习","任务类型"]},
+{n:8,t:"单选",f:"小艺是华为全场景设备上的智慧助手，在 AI 大模型加持下具备全场景解决方案能力，但它依然不可能解决的是____。",k:"预测未来一周内的天气",tags:["AI应用"]},
+{n:9,t:"单选",f:"在 AI 模型开发时，____不属于网络定义的功能。",k:"数据清洗",tags:["模型开发"]},
+{n:10,t:"单选",f:"Ascend Extension for PyTorch 插件是基于昇腾的深度学习适配框架，使昇腾 NPU 可以支持 PyTorch 框架，这种实现方式对应为____。",k:"算子重载",tags:["昇腾","PyTorch"],note:"题库系统原标 A，老师批注更改为 A（算子重载）"},
+{n:11,t:"单选",f:"____不是 FPGA 架构芯片的特点。",k:"量产后成本低",tags:["AI芯片"]},
+{n:12,t:"单选",f:"在 MindSpore 中执行 a=([1,2],[3,4],[5,6,7]); Tensor(a, dtype=int32)，运行后____。",k:"程序异常，抛出 TypeError",tags:["MindSpore","代码"]},
+{n:13,t:"单选",f:"在一个任务中，让模型利用大量未标记数据以及少量有标记数据进行训练，这样的算法属于____。",k:"半监督学习",tags:["机器学习","学习范式"]},
+{n:14,t:"单选",f:"关于 AI 技术，描述错误的是____。",k:"训练 AI 模型可以不使用数据和 AI 计算芯片",tags:["AI基础"]},
+{n:15,t:"单选",f:"某工程师想要部署一个大语言模型的应用，可以通过____获取模型。",k:"ModelZoo",tags:["昇腾","大模型"]},
+{n:16,t:"单选",f:"关于前馈神经网络，描述错误的是____。",k:"前馈神经网络由于输出层神经元数较多，因此无法解决二分类任务，但可以实现多分类",tags:["神经网络"]},
+{n:17,t:"单选",f:"John 使用 PyTorch 框架构建了 ResNet50 网络用于图像分类，训练时应将数据集处理成____形式的张量（N 为批量、H/W 为高宽、C 为通道数）。",k:"[N, C, H, W]",tags:["PyTorch","张量"]},
+{n:18,t:"单选",f:"Transformer 相对于 RNN 的优势是____。",k:"能够有效地理解更长的文本信息",tags:["Transformer"]},
+{n:19,t:"单选",f:"昇腾大模型解决方案提供了全流程的工具，其中可用于性能调优的工具是____。",k:"MindStudio",tags:["昇腾","工具"]},
+{n:20,t:"单选",f:"John 将模型保存为 ckpt(checkpoint) 格式，关于 ckpt 描述错误的是____。",k:"可以直接加载 ckpt 文件进行分布式训练",tags:["模型保存","MindSpore"]},
+{n:21,t:"单选",f:"AI 模型训练的基本流程正确排序是：准备数据 → ____。",k:"数据处理 → 训练模型 → 测试模型 → 保存模型",tags:["训练流程"],note:"即 1→4→5→3→2"},
+{n:22,t:"单选",f:"在卷积神经网络中，ReLU 激活函数的作用是____。",k:"引入非线性元素",tags:["CNN","激活函数"]},
+{n:23,t:"单选",f:"输入一个 32×32 的图像，用大小为 5×5 的卷积核进行步长为 1 的卷积计算，输出的图像尺寸为____。",k:"28×28",tags:["CNN","卷积计算"],note:"32−5+1=28"},
+{n:24,t:"单选",f:"关于反向传播，描述错误的是____。",k:"反向传播只能在前馈神经网络中运用",tags:["神经网络","反向传播"]},
+{n:25,t:"单选",f:"模型构建流程的正确步骤是：分割数据 → ____。",k:"训练模型 → 验证模型 → 测试模型 → 部署模型 → 用户反馈数据优化模型",tags:["训练流程"],note:"即 2→4→1→6→5→3"},
+{n:26,t:"单选",f:"在智慧医疗场景下，技术与应用对应错误的是____。",k:"药物挖掘 —— 语音合成",tags:["AI应用","医疗"]},
+{n:27,t:"单选",f:"在信用卡欺诈检测场景和垃圾邮件分类场景中，分别对模型的____要求较高。",k:"召回率、精度",tags:["评估指标"]},
+{n:28,t:"单选",f:"自然语言处理的应用场景不包括____。",k:"图像识别",tags:["NLP"]},
+{n:29,t:"单选",f:"John 使用 PyTorch+GPU 训练时发现资源利用率低且损失函数震荡难以收敛，他可以通过____来尝试解决。",k:"增大 batch size",tags:["训练调优","PyTorch"]},
+{n:30,t:"单选",f:"John 在 AI 应用开发过程中操作正确的是____。",k:"适当增大 batch size 来增加 GPU 的利用率",tags:["训练调优"]},
+{n:31,t:"单选",f:"智能驾驶能力越来越强，____不是支撑它发展的因素。",k:"智能座舱语音助手 / 智能座舱的自动驾驶",tags:["AI应用","智能驾驶"]},
+{n:32,t:"单选",f:"AI、机器学习、深度学习之间从大到小的包含关系是____。",k:"AI ⊃ 机器学习 ⊃ 深度学习",tags:["AI基础","概念关系"]},
+{n:33,t:"单选",f:"从技术架构角度，关于 AI 芯片描述错误的是____。",k:"CPU 的功能主要是解释计算机指令以及储存计算机硬件中的数据",tags:["AI芯片"]},
+{n:34,t:"单选",f:"John 想要实现一个机器翻译的应用，他可以选择____类别的算法。",k:"文本生成",tags:["NLP","机器翻译"]},
+{n:35,t:"单选",f:"实现机器翻译应用应选择____类别的算法。",k:"文本生成",tags:["NLP","机器翻译"],note:"与第34题为重复题"},
+{n:36,t:"单选",f:"____不属于 AI 开发框架。",k:"Python",tags:["AI框架"]},
+{n:37,t:"单选",f:"机器学习中，从数据处理到模型开始训练之前，____不是这个过程的一部分。",k:"数据采集",tags:["数据处理"]},
+{n:38,t:"单选",f:"知识图谱的应用不包含____。",k:"智能驾驶路径规划",tags:["知识图谱"]},
+{n:39,t:"单选",f:"在 MindSpore 中，可以用来构建全连接层的接口是____。",k:"Dense",tags:["MindSpore","接口"]},
+{n:40,t:"单选",f:"John 用 PyTorch 实现了包含全连接块和 CNN 层的网络（conv1: 3→16,k3,s1,p1；pool: k2,s2；fc1: Linear(32×8×8,128)；fc2: Linear(128,10)；输入 1×3×32×32），关于此网络结构描述正确的是____。",k:"网络不可执行，需要改变全连接层输入维度后才可执行",tags:["PyTorch","代码","维度计算"],note:"16×16×16=4096 ≠ 32×8×8=2048"},
+{n:41,t:"单选",f:"DeepSeek-R1-Zero 使用了____技术。",k:"纯强化学习（RL）技术，未使用监督微调",tags:["大模型","强化学习"]},
+{n:42,t:"单选",f:"深度学习中神经网络层数较多容易出现梯度消失问题，梯度消失问题出现在____。",k:"靠近输入层的隐藏层",tags:["神经网络","梯度"]},
+{n:43,t:"单选",f:"昇腾 AI 处理器中的 AI Core 可以完成矩阵、向量、标量的相关运算，其中向量运算由____完成。",k:"向量计算单元",tags:["昇腾","AI Core"]},
+{n:44,t:"单选",f:"AI 模型训练的基本流程正确排序是：准备数据 → ____。",k:"数据处理 → 训练模型 → 测试模型 → 保存模型",tags:["训练流程"],note:"即 1→4→5→3→2，与第21题同类"},
+{n:45,t:"单选",f:"GBDT 算法相比于随机森林算法，表述错误的是____。",k:"GBDT 算法的每棵树之间是相互独立的",tags:["机器学习","集成学习"]},
+{n:46,t:"单选",f:"关于前馈神经网络描述错误的是____。",k:"前馈神经网络中的神经元只包含输入神经元",tags:["神经网络"]},
+{n:47,t:"单选",f:"关于数据预处理描述错误的是____。",k:"数据去燥、数据检查、数据可视化都属于数据预处理的内容",tags:["数据处理"]},
+{n:48,t:"单选",f:"____不属于华为应用使能套件。",k:"MindSpore",tags:["昇腾","应用使能"]},
+{n:49,t:"单选",f:"某工程师使用 MindSDK 构建视频分析 AI 应用时，可以选择工具中的____功能。",k:"可视化管理与编排",tags:["昇腾","MindSDK"]},
+{n:50,t:"单选",f:"关于数据预处理，描述错误的是____。",k:"缺失值只能用均值填充",tags:["数据处理"]},
+{n:51,t:"单选",f:"AI 的发展取决于诸多因素，其中 AI 学习能力的提升得益于____。",k:"深度学习的出现",tags:["AI基础"]},
+{n:52,t:"单选",f:"使卷积神经网络具有平移不变性的操作是____。",k:"池化",tags:["CNN","池化"]},
+{n:53,t:"单选",f:"2025 年以来人工智能发展迅猛，____不属于 AI 技术落地面临的挑战。",k:"各企业数据开放的局限性",tags:["AI发展"]},
+{n:54,t:"单选",f:"L1 和 L2 正则化是传统机器学习常用的减少泛化误差的方法，关于两者区别描述错误的是____。",k:"L1 正则化比 L2 正则化更加稳健",tags:["机器学习","正则化"]},
+{n:55,t:"单选",f:"使用一台 8 卡的 Atlas 训练服务器进行模型训练，将环境变量 RANK_TABLE_FILE 指定为____，就可完成多卡组网集合通信。",k:"rank table 配置文件",tags:["昇腾","分布式训练"]},
+{n:56,t:"单选",f:"在机器人技术中，智能语音系统通常包含语音识别和____。",k:"语音合成",tags:["语音技术"]},
+{n:57,t:"单选",f:"深度学习中如果神经网络的层数较多容易出现梯度消失问题，以下不能缓解梯度消失的是____。",k:"增加隐藏层的层数",tags:["神经网络","梯度"]},
+{n:58,t:"单选",f:"某工程师想借助 PyTorch 实现一个卷积层（输入通道 6、输出通道 32、卷积核 3、步长 2、填充 1），代码应写为____。",k:"nn.Conv2d(6, 32, 3, stride=2, padding=1)",tags:["PyTorch","代码","CNN"]},
+{n:59,t:"单选",f:"关于 GPU 描述错误的是____。",k:"GPU 在大规模并发计算方面不具备优势",tags:["AI芯片","GPU"]},
+{n:60,t:"单选",f:"人工智能是一门综合学科，人脸识别、图像识别属于其____方向。",k:"计算机视觉",tags:["AI应用","CV"]},
+{n:61,t:"单选",f:"TensorFlow 2.0 中使用 keras 模块的内置数据集进行网络搭建时，用来加载数据集的函数是____。",k:"load_data",tags:["TensorFlow","接口"]},
+{n:62,t:"单选",f:"TensorFlow 是下列哪个公司首先开发的？",k:"Google",tags:["AI框架","TensorFlow"]},
+{n:63,t:"单选",f:"关于 PyCharm 集成开发环境描述不正确的是____。",k:"PyCharm 只支持 Python 语言的开发",tags:["开发工具"]},
+{n:64,t:"单选",f:"关于 PyTorch 描述错误的是____。",k:"PyTorch 不支持 NumPy",tags:["PyTorch","AI框架"]},
+{n:65,t:"单选",f:"pip 是 Python 的第三方库，它提供了很多基础功能，pip 的主要作用是____。",k:"安装和管理 Python 包",tags:["开发工具","Python"]},
+{n:66,t:"单选",f:"TensorFlow 中 keras 模块的内置数据集用于搭建网络时，load_data 函数的作用是____。",k:"从磁盘加载数据到内存并划分训练集 / 测试集",tags:["TensorFlow","接口"]},
+{n:67,t:"单选",f:"TensorFlow2.0 的 keras.preprocessing 模块的作用是____。",k:"数据预处理",tags:["TensorFlow","模块"]},
+{n:68,t:"单选",f:"TensorFlow2.0 的 keras 模块内置数据集中，____数据集提供新闻分类数据。",k:"reuters",tags:["TensorFlow","数据集"]},
+{n:69,t:"单选",f:"TensorFlow2.0 中，以下可用于激活函数的方法是____。",k:"tf.nn.relu",tags:["TensorFlow","激活函数"]},
+{n:70,t:"单选",f:"TensorFlow2.0 中可以用来查看张量维度的方法是____。",k:"ndim",tags:["TensorFlow","张量"]},
+{n:71,t:"多选",f:"梯度下降法的正确步骤包括____。",k:"对参数赋初值 → 求当前位置梯度 → 更新参数 → 循环迭代",tags:["优化算法"],note:"即 2→4→1→3"},
+{n:72,t:"多选",f:"人工智能的主要研究方向有____。",k:"计算机视觉、自然语言处理、语音处理、决策系统",tags:["AI基础"]},
+{n:73,t:"多选",f:"深度学习开发工程师在预训练时使用的正则化技术包括____。",k:"参数惩罚（L1/L2）、Dropout、数据集增强、提前终止",tags:["正则化","深度学习"]},
+{n:74,t:"多选",f:"深度学习模型可视化平台有____。",k:"MindInsight 和 TensorBoard",tags:["可视化","工具"]},
+{n:75,t:"多选",f:"在自然语言处理中，以下属于序列模型的有____。",k:"循环神经网络（RNN）、长短期记忆网络（LSTM）、注意力机制",tags:["NLP","序列模型"]},
+{n:76,t:"多选",f:"Pandas 模块能够完成的数据操作包括____。",k:"数据导入、数据导出、数据合并、数据筛选",tags:["Pandas","数据处理"]},
+{n:77,t:"多选",f:"Python 中导入模块的方式有____。",k:"import 模块、from…import…、import 模块 as 别名",tags:["Python"]},
+{n:78,t:"多选",f:"Python 中的循环语句有____。",k:"while 循环 和 for 循环",tags:["Python"]},
+{n:79,t:"多选",f:"关于 Python 中的关键字描述正确的是____。",k:"Python 默认使用 UTF-8 编码，且关键字不允许开发者定义",tags:["Python"]},
+{n:80,t:"多选",f:"MindSpore 的 Tensor 支持的操作有____。",k:"索引、四则运算、切片、获取维度",tags:["MindSpore","张量"]},
+{n:81,t:"多选",f:"关于 Python 元组描述正确的是____。",k:"可以使用下标索引访问值，且元组中的元素值不允许修改",tags:["Python","数据结构"]},
+{n:82,t:"多选",f:"以下属于列表方法的有____。",k:"list.count(obj)、len(list)、list.index(obj)、list.remove(obj)",tags:["Python","列表"]},
+{n:83,t:"多选",f:"正则化是传统机器学习中减少泛化误差的常用方法，以下属于正则化技术的有____。",k:"L1 正则化、L2 正则化、Dropout",tags:["正则化","机器学习"]},
+{n:84,t:"多选",f:"某工程师在实例分割项目中使用 MindRecord 格式，关于此格式描述正确的有____。",k:"是一种高性能的数据格式、可有效提升数据读取和训练的效率、是一种二进制数据格式",tags:["MindSpore","MindRecord"],note:"B「采用行存储」错误（ACD）"},
+{n:85,t:"多选",f:"以下属于无监督学习的有____。",k:"聚类、关联规则学习、降维",tags:["机器学习","无监督学习"]},
+{n:86,t:"多选",f:"以下属于生成模型的有____。",k:"朴素贝叶斯、高斯混合模型、隐马尔可夫模型",tags:["机器学习","生成模型"]},
+{n:87,t:"多选",f:"以下属于深度学习的神经网络结构有____。",k:"循环神经网络（RNN）、卷积神经网络（CNN）、Transformer、长短期记忆网络（LSTM）",tags:["深度学习","网络结构"]},
+{n:88,t:"多选",f:"以下可用于模型训练与推理的有____。",k:"GPU、NPU、TPU",tags:["AI芯片","算力"]},
+{n:89,t:"多选",f:"以下属于深度学习开发框架的有____。",k:"PyTorch、TensorFlow、MindSpore",tags:["AI框架"]},
+{n:90,t:"多选",f:"以下属于自然语言处理应用的有____。",k:"智能问答、文本分类、情感分析、机器翻译",tags:["NLP"]},
+{n:91,t:"多选",f:"关于机器学习与深度学习的关系，描述正确的有____。",k:"深度学习是机器学习的一个分支、机器学习是人工智能的一个分支、深度学习基于神经网络",tags:["AI基础","概念关系"]},
+{n:92,t:"多选",f:"以下属于监督学习算法的有____。",k:"逻辑回归、决策树、支持向量机（SVM）、线性回归",tags:["机器学习","监督学习"]},
+{n:93,t:"判断",f:"「多层感知机具备非线性分类的能力，这种能力来自类似 f(x)=ax 这样的激活函数和多层网络结构」这一说法是____的。",k:"错误",tags:["神经网络"],note:"f(x)=ax 是线性函数，非线性来自非线性激活函数"},
+{n:94,t:"判断",f:"「张量无法进行加减乘除等算数运算」这一说法是____的。",k:"错误",tags:["张量"]},
+{n:95,t:"判断",f:"「机器学习算法的本质就是得到一个输出，使得输出与真实结果尽可能的接近」这一说法是____的。",k:"正确",tags:["机器学习"]},
+{n:96,t:"判断",f:"「异常数据在模型训练过程中不需要删除，大量的异常数据可以提升模型的泛化能力」这一说法是____的。",k:"错误",tags:["数据处理"]},
+{n:97,t:"判断",f:"「端侧 AI 开发模型成功时模型能够对移动端推理部署，可以直接进行推理训练」这一说法是____的。",k:"错误",tags:["端侧AI"]},
+{n:98,t:"判断",f:"「大模型在能力和效果上都超过了小模型，小模型已经全面被大模型取代」这一说法是____的。",k:"错误",tags:["大模型"]},
+{n:99,t:"判断",f:"「John 在使用 PyTorch 框架实现 AI 模型训练时，应该先通过 set_context 配置模型训练相关参数（如设备ID、计算图模式等）」这一说法是____的。",k:"错误",tags:["PyTorch","MindSpore"],note:"set_context 是 MindSpore 的接口"},
+{n:100,t:"判断",f:"「理论上，训练时的精度会随着模型复杂度的上升和训练时间的增加不断减小」这一说法是____的。",k:"错误",tags:["训练"]},
+{n:101,t:"判断",f:"「理论上，训练时的精度会随着模型复杂度的上升和训练时间的增加不断减小」这一说法是____的。",k:"错误",tags:["训练"],note:"与第100题为重复题"},
+{n:102,t:"判断",f:"「大模型在工业应用时会有运行效率问题，所以为了保证效率，模型越小越好」这一说法是____的。",k:"错误",tags:["大模型"]},
+{n:103,t:"判断",f:"「特征选择的嵌入式过滤方法倾向于选择冗余的变量，因为它们没有考虑特征之间的关系」这一说法是____的。",k:"错误",tags:["特征工程"]},
+{n:104,t:"单选",f:"深度学习常用的损失函数有均方误差和交叉熵误差，针对两者的使用场景，描述正确的是____。",k:"两者均可用于分类问题",tags:["损失函数"]},
+{n:105,t:"单选",f:"一张 32×32×3 的图片依次经过 conv2d(3→16,k3,s1,p1)→maxpool(k2,s2)→flatten→Linear(n,10)，其中 n 的值应设置为____。",k:"4096",tags:["CNN","维度计算"],note:"32→32→池化16，16×16×16=4096"},
+{n:106,t:"单选",f:"Agent 的长期记忆通常不包含____。",k:"当前会话的全部对话历史",tags:["Agent"]},
+{n:107,t:"单选",f:"关于全局梯度下降、随机梯度下降和批量梯度下降算法的优缺点，描述错误的是____。",k:"随机梯度算法可以找到损失函数的最小值",tags:["优化算法","梯度下降"]},
+{n:108,t:"单选",f:"机器学习算法中，____不属于集成学习策略。",k:"Marking",tags:["机器学习","集成学习"]},
+{n:109,t:"单选",f:"张量 [[1,2],[3,4]],[[5,6],[7,8]],[[9,10],[11,12]] 的正确形状是____。",k:"[3, 2, 2]",tags:["张量","形状"]},
+{n:110,t:"单选",f:"使 AI 在自然语言处理领域获得了重大突破的算法是____。",k:"Transformer 架构",tags:["NLP","Transformer"]},
+{n:111,t:"单选",f:"某工程师使用 MindSpore 实现深度学习算法时，____不是 MindSpore 提供的功能。",k:"集群管理",tags:["MindSpore"]},
+{n:112,t:"单选",f:"某工程师在训练模型时，可以通过____工具管理团队的 NPU 算力集群。",k:"MindCluster",tags:["昇腾","MindCluster"]},
+{n:113,t:"单选",f:"关于聚类算法，描述错误的是____。",k:"k-means 和 DBSCAN 多次运行都不会产生相同的结果",tags:["机器学习","聚类"]},
+{n:114,t:"单选",f:"在深度学习网络中，反向传播算法用于寻求最优参数，它使用____法则进行逐层求导。",k:"链式法则",tags:["神经网络","反向传播"]},
+{n:115,t:"单选",f:"动态计算图相比静态计算图的主要优势之一是____。",k:"更高的灵活性",tags:["计算图"]},
+{n:116,t:"单选",f:"知识蒸馏的基本思想是____。",k:"构建一个较小的网络，将复杂网络的有用信息提取出来迁移到这个网络上",tags:["模型压缩","知识蒸馏"]},
+{n:117,t:"单选",f:"Seq2Seq 结构的神经网络由编码器和解码器组成，关于该结构描述错误的是____。",k:"编码器编码得到的中间向量长度不固定，计算复杂",tags:["Seq2Seq","NLP"]},
+{n:118,t:"单选",f:"关于 DeepSeek-V3 的模型结构认知，错误的是____。",k:"位置编码的作用是限制输出序列长度",tags:["大模型","DeepSeek"]},
+{n:119,t:"单选",f:"关于 CPU 低时延设计，描述错误的是____。",k:"有很多 ALU 和很少 Cache，缓存合并访问 DRAM 来降低时延",tags:["AI芯片","CPU"]},
+{n:120,t:"单选",f:"关于 CPU 低时延设计，描述错误的是____。",k:"有很多 ALU 和很少 Cache，缓存合并访问 DRAM 来降低时延",tags:["AI芯片","CPU"],note:"与第119题为重复题"},
+{n:121,t:"单选",f:"John 用 PyTorch 实现网络（conv1:3→16,k3,s2,p0；pool:k2,s2；fc1:Linear(3288,128)；fc2:Linear(128,10)；输入 1×3×32×32），描述正确的是____。",k:"网络不可以执行，需要改变部分隐藏层输出维度后才可执行",tags:["PyTorch","代码","维度计算"],note:"卷积+池化后为 16×7×7=784 ≠ 3288"},
+{n:122,t:"单选",f:"昇腾 AI 处理器中 AI Core 数据通路的特点是____。",k:"多进单出",tags:["昇腾","AI Core"]},
+{n:123,t:"多选",f:"数据增强是有效防止过拟合的方法，关于数据增强描述正确的有____。",k:"图像分类任务中对图片旋转/缩放、语音识别任务中对输入数据添加随机噪声、图像分类任务中调节图片亮度或对比度",tags:["数据增强","过拟合"],note:"C「NLP 中复制同一个词多次训练」错误（ABD）"},
+{n:124,t:"多选",f:"某工程师想要部署 DeepSeek-V3 模型进行推理，他需要考虑____。",k:"是否使用量化/量化方式、模型结构、设备显存/内存",tags:["大模型","推理部署"],note:"A「微调数据」与推理无关（BCD）"},
+{n:125,t:"多选",f:"John 使用 AI 框架创建的 tensor 具备的属性有____。",k:"数据类型、维数、形状、存储位置",tags:["张量"]},
+{n:126,t:"多选",f:"一个全连接网络（输入层20、2层隐藏层各32、输出层10）实现10分类，现要修改为2分类，以下哪些修改不能实现该功能____。",k:"将隐藏层和输出层神经元数量减半、减少输入层神经元数量、减少一层隐藏层并将剩下的隐藏层神经元数量减半",tags:["神经网络","网络结构"],note:"D「增加一层隐藏层(16神经元)并将输出层改为2」可实现（ABC 不能）"},
+{n:127,t:"多选",f:"关于数据（AI 发展的基石），说法正确的有____。",k:"数据质量和数量很重要、消除数据孤岛很重要、消除数据壁垒很重要、更安全的数据共享是基石之一",tags:["数据","AI发展"]},
+{n:128,t:"多选",f:"属于终端设备上所使用的 AI 芯片特征的有____。",k:"低成本、高性能、低延迟",tags:["AI芯片","终端"],note:"B「高功耗」错误（ACD）"},
+{n:129,t:"多选",f:"与 ASIC 芯片相比，FPGA 芯片的特征有____。",k:"实现相同功能时需要的芯片规模更大、研发风险较低",tags:["AI芯片","FPGA"]},
+{n:130,t:"多选",f:"属于图像识别技术应用场景的有____。",k:"无人驾驶、安防监控、智能机器人、机器狗",tags:["CV","图像识别"]},
+{n:131,t:"多选",f:"机器学习中模型总会存在误差，误差包括____。",k:"偏差、方差",tags:["机器学习","误差"]},
+{n:132,t:"多选",f:"昇腾 AI 处理器中，AI Core 的存储控制单元可以完成的操作有____。",k:"转置、补零、解压缩、Img2Col",tags:["昇腾","AI Core"]},
+{n:133,t:"判断",f:"「语音助手使用了计算机视觉技术和自然语言处理技术来识别语音并理解用户发出的指令」这一说法是____的。",k:"错误",tags:["语音技术"],note:"语音助手用语音识别+NLP，不涉及计算机视觉"},
+{n:134,t:"判断",f:"「理论上，训练的模型损失函数会随着模型复杂度的上升和训练时间的增加不断减小」这一说法是____的。",k:"错误",tags:["训练","损失函数"]},
+{n:135,t:"判断",f:"「RNN 中不同时刻的权重参数是共享的」这一说法是____的。",k:"正确",tags:["RNN"]},
+{n:136,t:"判断",f:"「梯度下降法中不同批次的权重参数是共享的」这一说法是____的。",k:"正确",tags:["梯度下降"]},
+{n:137,t:"判断",f:"「AscendCL 可以基于第三方框架开发推理类应用，但是需要通过 ATC 工具先对模型进行转换」这一说法是____的。",k:"正确",tags:["昇腾","AscendCL"]},
+{n:138,t:"判断",f:"「Self-Attention 机制无法捕捉到序列的位置信息，因此在 Transformer 模型中需要添加位置编码」这一说法是____的。",k:"正确",tags:["Transformer","位置编码"]},
+{n:139,t:"判断",f:"「SVM 和 k-means 都属于非参数模型」这一说法是____的。",k:"错误",tags:["机器学习"]},
+{n:140,t:"判断",f:"「反映样本在某方面的表现或性能的事项或属性称为特征」这一说法是____的。",k:"正确",tags:["特征工程"]},
+{n:141,t:"判断",f:"「对于 AI 业务应用来说，训练环节不会对模型进行压缩，而推理环节则需要」这一说法是____的。",k:"错误",tags:["模型压缩"]},
+{n:142,t:"判断",f:"「tanh 激活函数输出关于 0 对称，相比于 Sigmoid 函数可以加快模型的收敛」这一说法是____的。",k:"正确",tags:["激活函数"]},
+{n:143,t:"判断",f:"「随着大模型技术发展，大语言模型已赋能机器人领域，它使机器人不仅能听懂人类指令，还能认识三维世界中的物体」这一说法是____的。",k:"错误",tags:["大模型","机器人"],note:"认识三维世界物体需计算机视觉，LLM 单独做不到"},
+{n:144,t:"判断",f:"「CPU 主要提供通用计算、适合复杂逻辑运算，70% 以上的晶体管用于构建算数逻辑单元、缓存 Cache 和控制单元」这一说法是____的。",k:"错误",tags:["AI芯片","CPU"]},
+{n:145,t:"判断",f:"「AI 开发框架可以帮助开发者快速构建和部署自己的模型，并且可以实现端云协同和端侧推理的分布式训练」这一说法是____的。",k:"正确",tags:["AI框架"]},
+{n:146,t:"判断",f:"「MoE 是一种混合专家模型，这种方案可以有效增强模型的容量和能力，同时在推理时能够动态决定哪些专家模型工作」这一说法是____的。",k:"正确",tags:["MoE","大模型"]},
+{n:147,t:"判断",f:"「在随机森林中，基于学习器所使用特征衡量指标需要是基尼系数」这一说法是____的。",k:"错误",tags:["机器学习","随机森林"]},
+{n:148,t:"判断",f:"「昇腾 AI 处理器中 AI Core 控制单元包含标量指令处理队列和向量指令处理队列」这一说法是____的。",k:"正确",tags:["昇腾","AI Core"]},
+{n:149,t:"判断",f:"「卷积层参数共享是指在同一层中使用全部卷积核参数一致、不同层使用的卷积核参数不同」这一说法是____的。",k:"错误",tags:["CNN","参数共享"],note:"参数共享指同一卷积核在所有空间位置共享"},
+{n:150,t:"判断",f:"「Atlas 系列产品覆盖训练、推理场景、服务器、边缘计算、加速模块等产品形态」这一说法是____的。",k:"正确",tags:["昇腾","Atlas"]},
+{n:151,t:"判断",f:"「单层感知机无法解决 XOR 问题，成为了阻碍深度学习发展的一个重要原因」这一说法是____的。",k:"正确",tags:["神经网络","感知机"]},
+{n:152,t:"判断",f:"「DeepSeek-R1-Zero 的参数量仅为 660B，不属于大模型的范畴」这一说法是____的。",k:"错误",tags:["大模型","DeepSeek"]},
+{n:153,t:"判断",f:"「Softmax 回归是逻辑回归的一般化，只适用于二分类的问题」这一说法是____的。",k:"错误",tags:["机器学习","Softmax"],note:"Softmax 适用于多分类"},
+{n:154,t:"判断",f:"「当问题的解决方案很复杂，或问题涉及大量数据却没有明确的数据分布函数时，比较适合使用机器学习方法」这一说法是____的。",k:"正确",tags:["机器学习"]},
+{n:155,t:"判断",f:"「在 MindSpore 中默认的模式为动态模式，也可以通过 set_context(mode=PYNATIVE_MODE) 手动设置为动态图模式」这一说法是____的。",k:"错误",tags:["MindSpore","计算图"],note:"MindSpore 默认静态图模式"},
+{n:156,t:"判断",f:"「使用 mindspore.nn.Conv2d(1,3,5) 接口可以创建输入通道数为1、输出通道数为5、卷积核大小为3×3的卷积层」这一说法是____的。",k:"错误",tags:["MindSpore","CNN"],note:"参数顺序为 in=1,out=3,kernel=5"},
+{n:157,t:"判断",f:"「语音助手就是使用了计算机视觉技术和自然语言处理技术来识别是谁发出了什么样的指令」这一说法是____的。",k:"错误",tags:["语音技术"]},
+{n:158,t:"判断",f:"「在 Self-Attention 计算过程中，Query、Key 和 Value 都是由输入序列通过不同的线性变换得到的」这一说法是____的。",k:"正确",tags:["Transformer","Self-Attention"]},
+{n:159,t:"判断",f:"「数据降维的目的是减少数据量，增加模型的准确度」这一说法是____的。",k:"错误",tags:["数据处理","降维"]},
+{n:160,t:"判断",f:"「Sigmoid、tanh 和 Softsign 这些激活函数在网络层数加深时，都不能避免梯度消失的问题」这一说法是____的。",k:"正确",tags:["激活函数","梯度消失"]},
+{n:161,t:"判断",f:"「机器学习是深度学习的一部分，人工智能也是深度学习的一部分」这一说法是____的。",k:"错误",tags:["AI基础","概念关系"],note:"应为 深度学习⊂机器学习⊂人工智能"},
+{n:162,t:"判断",f:"「PyTorch、MindSpore 等 AI 开发框架通常提供内置的预处理功能，用于数据采集、数据清洗、特征选择和归一化等操作」这一说法是____的。",k:"正确",tags:["AI框架","数据处理"]},
+{n:163,t:"判断",f:"「CANN 中提供了 DVPP 和 AIPP，前者使用昇腾 AI 处理器中的 DVPP 模块对图像进行处理，后者使用 AI Core 对图像进行处理」这一说法是____的。",k:"正确",tags:["昇腾","CANN"]},
+{n:164,t:"判断",f:"「为防止过拟合，训练过程中可插入对验证集数据的测试，当发现验证集 Loss 上升时提前停止训练」这一说法是____的。",k:"正确",tags:["过拟合","训练"]},
+{n:165,t:"判断",f:"「DeepSeek-R1-Zero 是 DeepSeek 系列模型中体积最大的，它不需要通过强化学习训练，也能和人类偏好对齐」这一说法是____的。",k:"错误",tags:["大模型","DeepSeek"],note:"R1-Zero 正是用纯强化学习训练"},
+{n:166,t:"判断",f:"「昇腾 AI 处理器只提供了 DDR 接口，可以外接 DDR4 内存」这一说法是____的。",k:"错误",tags:["昇腾","AI芯片"]},
+{n:167,t:"判断",f:"「SVM、k-NN 和 k-means 都属于非参数模型」这一说法是____的。",k:"错误",tags:["机器学习"]},
+{n:168,t:"判断",f:"「在 RNN 中，每一时刻隐藏状态的权重都保持一致，这样可以减少网络的参数量」这一说法是____的。",k:"正确",tags:["RNN"]},
+{n:169,t:"判断",f:"「AI 开发框架的功能只是提供网络模型接口，模型训练过程中的前向传播和反向传播需要开发者自己完成」这一说法是____的。",k:"错误",tags:["AI框架"]},
+{n:170,t:"判断",f:"「MindSpore 在构建神经网络时，可以通过继承 Cell 类，并复写 __init__ 方法和 construct 方法实现」这一说法是____的。",k:"正确",tags:["MindSpore"]},
+{n:171,t:"判断",f:"「CPU 可以通过提高频率的方式提升 AI 计算性能」这一说法是____的。",k:"正确",tags:["AI芯片","CPU"]},
+{n:172,t:"判断",f:"「DeepSeek-V3 是一个基于 GPT 结构的多模态模型，较 V2 版本相比，其训练成本和推理速度都有很大的提升」这一说法是____的。",k:"错误",tags:["大模型","DeepSeek"]},
+{n:173,t:"判断",f:"「与 FPGA 相比，相同工艺下基于 ASIC 的 AI 芯片功耗更大，因此不适合用于手机等终端设备上」这一说法是____的。",k:"错误",tags:["AI芯片","ASIC"],note:"ASIC 功耗更低，适合终端"},
+{n:174,t:"判断",f:"「John 在使用 PyTorch 框架实现 AI 模型训练时，应该先通过 set_context 设置模型训练相关参数（如设备ID、计算图模式等）」这一说法是____的。",k:"错误",tags:["PyTorch","MindSpore"]},
+{n:175,t:"判断",f:"「前馈神经网络接收前一层的输出并输出给下一层，采用单向多层结构，同一层的神经元之间没有互相连接，层间信息只沿一个方向传送」这一说法是____的。",k:"正确",tags:["神经网络","前馈网络"]},
+{n:176,t:"判断",f:"「当前 AI 开发框架动态计算图和静态计算图语法兼容，可以直接进行相互转换」这一说法是____的。",k:"错误",tags:["计算图"]},
+{n:177,t:"判断",f:"「AI 芯片会针对矩阵运算做加速设计」这一说法是____的。",k:"正确",tags:["AI芯片"]},
+{n:178,t:"判断",f:"「特征选择过滤法的局限性是：过滤方法倾向于选择冗余的变量，因为它没有考虑特征之间的关系」这一说法是____的。",k:"正确",tags:["特征工程"]},
+{n:179,t:"判断",f:"「RNN 跟前馈神经网络最大的区别在于：每次都会将前一时刻的计算结果带到下一时刻的隐藏层中一起训练」这一说法是____的。",k:"正确",tags:["RNN","神经网络"]}
+];
+</script>
+<script>
+(function(){
+"use strict";
+/* ---------- 配置 ---------- */
+var EXAM = new Date(2026, 8, 30); // 2026-09-30 九月底
+var TODAY = new Date(); TODAY.setHours(0,0,0,0);
+
+/* ---------- 安全存储 ---------- */
+var store = (function(){
+  var mem = {};
+  try{
+    var t="__t"; window.localStorage.setItem(t,"1"); window.localStorage.removeItem(t);
+    return {
+      get:function(k){ try{var v=window.localStorage.getItem(k); return v?JSON.parse(v):null;}catch(e){return mem[k]||null;} },
+      set:function(k,v){ try{window.localStorage.setItem(k,JSON.stringify(v));}catch(e){mem[k]=v;} }
+    };
+  }catch(e){
+    return { get:function(k){return mem[k]||null;}, set:function(k,v){mem[k]=v;} };
+  }
+})();
+var KEY="hcia_ai_mastered_v1";
+var mastered = store.get(KEY) || {};
+
+/* ---------- 状态 ---------- */
+var state = { type:"全部", query:"", view:"all", mask:false, day:null };
+
+/* ---------- 工具 ---------- */
+var TYPE_META = {
+  "单选":{c:"var(--single)", bg:"var(--single-bg)"},
+  "多选":{c:"var(--multi)",  bg:"var(--multi-bg)"},
+  "判断":{c:"var(--judge)",  bg:"var(--judge-bg)"}
+};
+function esc(s){return String(s).replace(/[&<>"]/g,function(m){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];});}
+function el(id){return document.getElementById(id);}
+function daysLeft(){ var d=Math.ceil((EXAM-TODAY)/86400000); return d; }
+function fmtDate(d){ return (d.getMonth()+1)+"月"+d.getDate()+"日"; }
+
+/* 渲染一句：把 ____ 替换为 填入答案的横线 */
+function renderStem(q){
+  var ans = '<span class="blank"><span class="ans">'+esc(q.k)+'</span></span>';
+  var txt = esc(q.f);
+  if(txt.indexOf("____")>=0){ return txt.split("____").join(ans); }
+  return txt + " " + ans;
+}
+
+function cardHTML(q){
+  var meta = TYPE_META[q.t]||{c:"var(--accent)",bg:"var(--accent-soft)"};
+  var tags = (q.tags||[]).map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join("");
+  var note = q.note ? '<span class="note">'+esc(q.note)+'</span>' : '';
+  var star = mastered[q.n] ? "on" : "";
+  var starChar = mastered[q.n] ? "★" : "☆";
+  return '<article class="card" data-n="'+q.n+'" data-t="'+q.t+'" style="--tc:'+meta.c+';--tbg:'+meta.bg+'">'+
+    '<div class="card-top">'+
+      '<span class="qnum">'+q.n+'</span>'+
+      '<span class="badge">'+q.t+'题</span>'+
+      '<span class="mask-hint">点击卡片查看答案</span>'+
+      '<div class="tags">'+tags+'</div>'+
+      '<button class="star '+star+'" data-star="'+q.n+'" title="标记为已掌握">'+starChar+'</button>'+
+    '</div>'+
+    '<p class="stem">'+renderStem(q)+'</p>'+
+    '<div class="card-foot">'+
+      '<span class="anskey"><span class="lab">答案</span>'+esc(q.k)+'</span>'+
+      note+
+    '</div>'+
+  '</article>';
+}
+
+/* ---------- 过滤 ---------- */
+function currentList(){
+  var list = QS.slice();
+  if(state.type==="星标"){ list = list.filter(function(q){return mastered[q.n];}); }
+  else if(state.type!=="全部"){ list = list.filter(function(q){return q.t===state.type;}); }
+  if(state.query){
+    var s = state.query.toLowerCase();
+    list = list.filter(function(q){
+      return (q.f+" "+q.k+" "+(q.tags||[]).join(" ")).toLowerCase().indexOf(s)>=0;
+    });
+  }
+  return list;
+}
+
+/* ---------- 渲染：全部（按题型分组） ---------- */
+function renderAll(){
+  var list = currentList();
+  var groups = [["单选","单选题"],["多选","多选题"],["判断","判断题"]];
+  var html="";
+  groups.forEach(function(g){
+    var items = list.filter(function(q){return q.t===g[0];});
+    if(!items.length) return;
+    html += '<div class="sec-head"><h2><span class="bar" style="background:'+(TYPE_META[g[0]].c)+'"></span>'+g[1]+'</h2><span class="cnt">'+items.length+' 题</span></div>';
+    html += '<div class="list">'+ items.map(cardHTML).join("") +'</div>';
+  });
+  el("list").innerHTML = html || "";
+  el("empty").classList.toggle("show", list.length===0);
+}
+
+/* ---------- 渲染：每日计划 ---------- */
+function buildDays(){
+  var total = QS.length;
+  var d = Math.max(1, daysLeft());
+  // 天数过多时按 12 题/天 收敛，避免每天过少
+  var plan = Math.min(d, Math.ceil(total/8));
+  plan = Math.max(1, plan);
+  var per = Math.ceil(total/plan);
+  var days=[];
+  for(var i=0;i<total;i+=per){ days.push(QS.slice(i,i+per)); }
+  return days;
+}
+var DAYS = buildDays();
+function renderPlan(){
+  // 计算今天是第几天（从 2026-09-11 起）
+  var start = new Date(2026,8,11); start.setHours(0,0,0,0);
+  var idx = Math.floor((TODAY-start)/86400000);
+  if(isNaN(idx)||idx<0) idx=0; if(idx>=DAYS.length) idx=DAYS.length-1;
+  var todayIdx = idx;
+
+  var tabs = DAYS.map(function(day,i){
+    var cls = "day-tab"+(i===state.day?" active":"")+(i===todayIdx?" today":"");
+    var rng = day[0].n+"–"+day[day.length-1].n;
+    return '<span class="'+cls+'" data-day="'+i+'">第'+(i+1)+'天 <span style="opacity:.7">'+rng+'</span></span>';
+  }).join("");
+  el("day-tabs").innerHTML = tabs;
+  el("day-tabs").classList.add("show");
+
+  var sel = (state.day==null)? todayIdx : state.day;
+  if(sel<0||sel>=DAYS.length) sel=0;
+  var day = DAYS[sel];
+  // 应用搜索/筛选
+  var filtered = day.filter(function(q){
+    if(state.type==="星标" && !mastered[q.n]) return false;
+    if(state.type!=="全部" && state.type!=="星标" && q.t!==state.type) return false;
+    if(state.query){ var s=state.query.toLowerCase(); if((q.f+" "+q.k+" "+(q.tags||[]).join(" ")).toLowerCase().indexOf(s)<0) return false; }
+    return true;
+  });
+  var banner = '今天是 <b>'+fmtDate(TODAY)+'</b>，建议背诵 <b>第 '+(todayIdx+1)+' 天</b>（第 '+DAYS[todayIdx][0].n+'–'+DAYS[todayIdx][day.length-1].n+' 题）。'+(sel===todayIdx?' 你正在看今天的内容。':' 当前查看第 '+(sel+1)+' 天。');
+  el("day-banner").innerHTML = banner;
+  el("day-banner").classList.add("show");
+
+  var html = '<div class="sec-head"><h2><span class="bar"></span>第 '+(sel+1)+' 天</h2><span class="cnt">'+day[0].n+'–'+day[day.length-1].n+' 题 · 共 '+day.length+' 题</span></div>';
+  html += '<div class="list">'+ filtered.map(cardHTML).join("") +'</div>';
+  el("list").innerHTML = html;
+  el("empty").classList.toggle("show", filtered.length===0);
+}
+
+function render(){
+  if(state.view==="plan"){ renderPlan(); } else {
+    el("day-tabs").classList.remove("show");
+    el("day-banner").classList.remove("show");
+    renderAll();
+  }
+  updateProgress();
+}
+
+/* ---------- 进度 / 顶部统计 ---------- */
+function updateProgress(){
+  var n = Object.keys(mastered).filter(function(k){return mastered[k];}).length;
+  el("ms-n").textContent = n;
+  el("ms-total").textContent = QS.length;
+  el("ms-bar").style.width = (QS.length? (n/QS.length*100):0)+"%";
+}
+function initStats(){
+  el("st-total").textContent = QS.length;
+  el("st-single").textContent = QS.filter(function(q){return q.t==="单选";}).length;
+  el("st-multi").textContent  = QS.filter(function(q){return q.t==="多选";}).length;
+  el("st-judge").textContent  = QS.filter(function(q){return q.t==="判断";}).length;
+  var d = daysLeft();
+  if(d>1){ el("cd-num").textContent=d; el("cd-lab").textContent="天后考试(9月底)"; }
+  else if(d===1){ el("cd-num").textContent="明天"; el("cd-lab").textContent="就要考试了"; }
+  else if(d===0){ el("cd-num").textContent="今天"; el("cd-lab").textContent="考试日,加油!"; }
+  else { el("cd-num").textContent="✓"; el("cd-lab").textContent="已过考试日"; }
+}
+
+/* ---------- 事件 ---------- */
+el("chips").addEventListener("click",function(e){
+  var c = e.target.closest(".chip"); if(!c) return;
+  var chips = el("chips").querySelectorAll(".chip");
+  chips.forEach(function(x){x.classList.remove("active");});
+  c.classList.add("active");
+  state.type = c.getAttribute("data-t");
+  render();
+});
+el("q").addEventListener("input",function(){ state.query=this.value.trim(); render(); });
+
+el("btn-view").addEventListener("click",function(){
+  state.view = (state.view==="all") ? "plan" : "all";
+  el("view-lab").textContent = (state.view==="plan") ? "全部题目" : "每日计划";
+  this.classList.toggle("on", state.view==="plan");
+  render();
+});
+el("btn-mask").addEventListener("click",function(){
+  state.mask = !state.mask;
+  document.body.classList.toggle("masked", state.mask);
+  el("mask-lab").textContent = state.mask ? "显示答案" : "遮挡答案";
+  this.classList.toggle("on", !state.mask);
+});
+el("day-tabs").addEventListener("click",function(e){
+  var t=e.target.closest(".day-tab"); if(!t) return;
+  state.day = parseInt(t.getAttribute("data-day"),10);
+  render();
+});
+el("list").addEventListener("click",function(e){
+  var star = e.target.closest("[data-star]");
+  if(star){
+    var n = star.getAttribute("data-star");
+    mastered[n] = !mastered[n];
+    if(!mastered[n]) delete mastered[n];
+    store.set(KEY, mastered);
+    star.classList.toggle("on", !!mastered[n]);
+    star.textContent = mastered[n] ? "★":"☆";
+    updateProgress();
+    if(state.type==="星标") render();
+    return;
+  }
+  // 遮挡模式下点击卡片 => 单独揭示
+  if(state.mask){
+    var card = e.target.closest(".card");
+    if(card){ card.classList.toggle("show"); }
+  }
+});
+var toTop=el("to-top");
+window.addEventListener("scroll",function(){ toTop.classList.toggle("show", window.scrollY>600); },{passive:true});
+toTop.addEventListener("click",function(){ window.scrollTo({top:0,behavior:"smooth"}); });
+
+/* ---------- 启动 ---------- */
+initStats();
+render();
+})();
+</script>
+</body>
 </html>
